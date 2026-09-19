@@ -24,7 +24,8 @@ WORKDIR /app
 RUN git clone --recursive https://github.com/FunAudioLLM/CosyVoice.git
 
 WORKDIR /app/CosyVoice
-RUN pip install --no-cache-dir -r requirements.txt \
+RUN grep -v -i -E '^(tensorrt|deepspeed)' requirements.txt > requirements.filtered.txt \
+    && pip install --no-cache-dir -r requirements.filtered.txt \
         --extra-index-url https://download.pytorch.org/whl/cu121 \
     && pip install --no-cache-dir runpod huggingface_hub
 
